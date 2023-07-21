@@ -1,0 +1,59 @@
+﻿@* @page "/counter"
+@using blazor_project.Data
+@inject WeatherForecastService ForecastService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Counter</PageTitle>
+
+<div class="alert alert-danger" role="alert" @ref="divElement">
+  Um simples alerta primary. Olha só!
+</div>
+
+<h1>Counter</h1>
+
+<button class="btn btn-primary" @onclick="adicionarCasa">Click me</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Identificador da Casa</th>
+                <th>Titulo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var casa in casas)
+            {
+                <tr>
+                    <td>@casa.idCasa</td>
+                    <td>@casa.titulo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+@code {
+    private List<Casa>? casas;
+    private ElementReference divElement;
+
+    protected override async Task OnInitializedAsync()
+    {
+        casas = ForecastService.BuscaCasas();
+    }
+
+    protected void BuscaCasas()
+    {
+        casas = ForecastService.BuscaCasas();
+    }
+
+    private void adicionarCasa()
+    {
+        try
+        {
+          ForecastService.InserirCasa();
+          BuscaCasas();
+        }
+        catch
+        {
+            JSRuntime.InvokeVoidAsync("alert", "Ocorreu um erro para incluir as casas.");
+        }
+    }
+} *@

@@ -1,0 +1,43 @@
+﻿@* @page "/fetchdata"
+@using blazor_project.Data
+@inject WeatherForecastService ForecastService
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (casas == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Identificador da Casa</th>
+                <th>Titulo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var casa in casas)
+            {
+                <tr>
+                    <td>@casa.idCasa</td>
+                    <td>@casa.titulo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Casa>? casas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        casas = ForecastService.BuscaCasas();
+    }
+} *@
